@@ -26,5 +26,3 @@ def checkout(skus):
         
 
     return 0
-
-
