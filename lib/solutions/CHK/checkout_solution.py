@@ -6,7 +6,8 @@ class Item():
     def __init__(self, sku, price, special_offer, volume_discounts, freebie_offers):
         self.sku = sku
         self.price = price
-        self.special_offer = special_offer
+        self.volume_discounts = volume_discounts
+        self.freebie_offers = freebie_offers
 
 
 class VolumeDiscount():
@@ -22,6 +23,11 @@ class FreebieOffer():
     def __init__(self, count, freebies):
         self.count = count
         self.freebies = freebies
+
+
+def calc_max_volume_discount(sku_count, item):
+    price = 0
+
 
 
 # noinspection PyUnusedLocal
@@ -53,9 +59,10 @@ def checkout(skus):
     """
 
     for item in items:
-
+        pass
 
     return total_price
+
 
 
 
