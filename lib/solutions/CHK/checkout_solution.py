@@ -1,3 +1,5 @@
+from collections import defaultdict
+from email.policy import default
 
 
 class Item():
@@ -16,9 +18,12 @@ def checkout(skus):
         Item("D", 15, None)
     ]
 
+    sku_count = defaultdict(int)
+
     for sku in skus:
         if sku not in [x.sku for x in items]:
             return -1
+        
 
     return 0
 
