@@ -27,17 +27,5 @@ def checkout(skus):
 
     total_price = 0
 
-    for item in items:
-        item_count = sku_count[item.sku]
-        if item.special_offer:
-            special_offer_count = item_count // item.special_offer[0]
-            regular_price_count = item_count % item.special_offer[0]
-            special_offer_price = item.special_offer[1]
-        else:
-            special_offer_count = 0
-            regular_price_count = item_count
-            special_offer_price = 0
-        total_price += (special_offer_count * special_offer_price) + (regular_price_count * item.price)
-        
-
     return total_price
+
