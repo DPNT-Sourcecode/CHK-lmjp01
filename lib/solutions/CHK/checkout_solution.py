@@ -30,7 +30,7 @@ def checkout(skus):
     for item in items:
         item_count = sku_count[item.sku]
         if item.special_offer:
-            special_offer_count = item_count / item.special_offer[0]
+            special_offer_count = item_count // item.special_offer[0]
             regular_price_count = item_count % item.special_offer[0]
             special_offer_price = item.special_offer[1]
         else:
