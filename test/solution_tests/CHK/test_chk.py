@@ -15,14 +15,23 @@ class TestCheckout():
     def test_checkout_legal_input(self):
         assert checkout_solution.checkout("ABCD") == 50 + 30 + 20 + 15
 
-    def test_checkout_special_offer(self):
+    def test_checkout_volume_discount(self):
         assert checkout_solution.checkout("AAA") == 130
 
-    def test_checkout_special_offer_plus_regular(self):
+    def test_checkout_volume_discount_plus_regular(self):
         assert checkout_solution.checkout("AAAA") == 130 + 50
 
-    def test_checkout_special_offer_multiple_times(self):
-        assert checkout_solution.checkout("AAAAAA") == 130 * 2
+    def test_checkout_volume_discount_mixed(self):
+        assert checkout_solution.checkout("AAAAAAAA") == 130 + 200
+
+    def test_checkout_volume_discount_multiple_times(self):
+        assert checkout_solution.checkout("AAAAAAAAAA") == 200 * 2
 
     def test_checkout_complicated(self):
         assert checkout_solution.checkout("AAAABBBCCD") == (130 + 50) + (45 + 30) + (20 * 2) + 15 
+
+    def test_checkout_freebie(self):
+        assert checkout_solution.checkout("EE") == checkout_solution.checkout("EEB")
+    
+    def test_checkout_freebie_with_volume_discount(self):
+        assert checkout_solution.checkout("EEBB") == 40 + 30
