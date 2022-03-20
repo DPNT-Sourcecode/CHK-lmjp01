@@ -98,7 +98,7 @@ def build_items(table_string):
 # skus = unicode string
 def checkout(skus):
 
-    with open('price_table.txt') as table_string:
+    with open('./price_table.txt') as table_string:
         items = build_items(table_string)
 
     sku_count = defaultdict(int)
