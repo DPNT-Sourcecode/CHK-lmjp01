@@ -2,7 +2,7 @@ from solutions.CHK import checkout_solution
 
 
 class TestCheckout():
-    
+
     def test_checkout_illegal_input(self):
         assert checkout_solution.checkout("ABCDEFG ") == -1
 
@@ -41,3 +41,7 @@ class TestCheckout():
         assert items[5].freebie_offers[0].count == 3
         assert len(items[7].volume_discounts) == 2
         assert items[13].freebie_offers[0].freebies == {"M": 1}
+
+    def test_multi_volume_discount(self):
+        assert checkout_solution.checkout("STX") == 45
+        assert checkout_solution.checkout("XXXZ") == 45 + 17

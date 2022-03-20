@@ -86,6 +86,7 @@ class TableBuilder():
                         multi_volume_count = int(offer_string_fields[2])
                         multi_volume_price = int(offer_string_fields[-1])
                         multi_volume_skus = offer_string_fields[4][1:-1].split(',')
+                        self.multi_volume_discounts[tuple(multi_volume_skus)] = VolumeDiscount(multi_volume_count, multi_volume_price)
             self.items.append(Item(sku, int(price), volume_discounts, freebie_offers))
 
     
