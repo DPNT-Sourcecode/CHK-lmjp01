@@ -99,3 +99,5 @@ def checkout(skus):
     price_freebies_first = 1000
 
     return min(price_volume_first, price_freebies_first)
+
+checkout("EE")
