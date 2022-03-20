@@ -2,13 +2,7 @@ from solutions.CHK import checkout_solution
 
 
 class TestCheckout():
-    # items = [
-    #     Item("A", 50, (3, 130)),
-    #     Item("B", 30, (2, 45)),
-    #     Item("C", 20, None),
-    #     Item("D", 15, None)
-    # ]
-
+    
     def test_checkout_illegal_input(self):
         assert checkout_solution.checkout("ABCDEFG ") == -1
 
@@ -39,5 +33,11 @@ class TestCheckout():
 
     def test_build_items(self):
         items = checkout_solution.build_items_wrapper()
-        print(items)
-        assert items[0].sku == "B"
+        assert items[0].sku == "A"
+        assert items[1].price == 30
+        assert items[2].volume_discounts == []
+        assert items[3].freebie_offers == []
+        assert items[4].freebie_offers[0].count == 2
+        assert items[5].freebie_offers[0].count == 3
+        assert len(items[7].volume_discounts) == 2
+        assert items[13].freebie_offers[0].freebies == {"M": 1}
