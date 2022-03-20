@@ -146,6 +146,8 @@ def checkout(skus):
 
     sku_count = defaultdict(int)
 
+    multi_volume_discounts = TableBuilder().multi_volume_discounts
+
     for sku in skus:
         if sku not in [x.sku for x in items]:
             return -1
@@ -156,3 +158,4 @@ def checkout(skus):
     price_freebies_first = calc_price_freebies_first(items, copy.deepcopy(sku_count))
 
     return min(price_volume_first, price_freebies_first)
+
