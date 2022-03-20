@@ -69,8 +69,11 @@ def checkout(skus):
     calc price and save
     invert, calc price, compare
     """
-    total_price = 0
+    price_volume_first = calc_price_volume_first(items, copy.deepcopy(sku_count))
 
-    return total_price
+    price_freebies_first = 0
+
+    return min(price_volume_first, price_freebies_first)
+
 
 
