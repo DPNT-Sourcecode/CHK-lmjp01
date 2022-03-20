@@ -51,8 +51,11 @@ def calc_price_volume_first(items, sku_count):
     for item in items:
         max_volume_discount = calc_max_volume_discount(item, sku_count)
         total_price += max_volume_discount
+    print(total_price)
     for item in items:
         total_price += sku_count[item.sku] * item.price
+
+    print(sku_count)
     return total_price
 
 
@@ -101,3 +104,4 @@ def checkout(skus):
     return min(price_volume_first, price_freebies_first)
 
 checkout("EE")
+
