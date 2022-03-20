@@ -114,7 +114,21 @@ def calc_eligible_freebies(item, sku_count):
                 sku_count[freebie_sku] = max(sku_count[freebie_sku], 0)
 
 
-def calc_price_volume_first(items, sku_count):
+def calc_max_multi_volume_discount(items, multi_volume_discounts, sku_count):
+    item_prices = {}
+    for item in items:
+        item_prices[item.sku] = item.price
+
+    multi_volume_skus_available = ""
+    for mvd_skus in multi_volume_discounts.keys():
+        sorted_skus = list(mvd_skus).sort(key=lambda x: item_prices[x], reverse=True)
+        for sku in sorted_skus:
+            multi_volume_skus_available += sku * sku_count[sku]
+        times_applied = len(multi_volume_skus_available) // multi_volume_discounts[mvd_skus]
+        multi_volume_skus_available = multi_volume_skus_available[:(times_applied * multi_volume_discounts[mvd_skus])]
+
+
+def calc_price_volume_first(items, sku_count, multi_volume_discounts):
     total_price = 0
     for item in items:
         max_volume_discount = calc_max_volume_discount(item, sku_count)
@@ -126,10 +140,12 @@ def calc_price_volume_first(items, sku_count):
     return total_price
 
 
-def calc_price_freebies_first(items, sku_count):
+def calc_price_freebies_first(items, sku_count, multi_volume_discounts):
     total_price = 0
     for item in items:
         calc_eligible_freebies(item, sku_count)
+    for item in items:
+        max_multi_volume_discount = calc_max_multi_volume_discount()
     for item in items:
         max_volume_discount = calc_max_volume_discount(item, sku_count)
         total_price += max_volume_discount
@@ -153,9 +169,10 @@ def checkout(skus):
             return -1
         sku_count[sku] += 1
 
-    price_volume_first = calc_price_volume_first(items, copy.deepcopy(sku_count))
+    price_volume_first = calc_price_volume_first(items, copy.deepcopy(sku_count), multi_volume_discounts)
 
-    price_freebies_first = calc_price_freebies_first(items, copy.deepcopy(sku_count))
+    price_freebies_first = calc_price_freebies_first(items, copy.deepcopy(sku_count), multi_volume_discounts)
 
     return min(price_volume_first, price_freebies_first)
+
 
