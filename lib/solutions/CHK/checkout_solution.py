@@ -4,7 +4,7 @@ from os import times
 
 
 class Item():
-    def __init__(self, sku, price, special_offer, volume_discounts, freebie_offers):
+    def __init__(self, sku, price, volume_discounts, freebie_offers):
         self.sku = sku
         self.price = price
         self.volume_discounts = volume_discounts
@@ -28,13 +28,13 @@ class FreebieOffer():
 
 def calc_max_volume_discount(sku_count, item):
     price = 0
-    for volume_discount in sorted(item.volume_discounts, key=lambda x:x.get_price_per_item()):
-        times_applied = sku_count[item.sku] // volume_discount.volume
-        price += times_applied * volume_discount.price
-        sku_count[item.sku] -= times_applied * volume_discount.volume
+    if item.volume_discounts:
+        for volume_discount in sorted(item.volume_discounts, key=lambda x:x.get_price_per_item()):
+            times_applied = sku_count[item.sku] // volume_discount.volume
+            price += times_applied * volume_discount.price
+            sku_count[item.sku] -= times_applied * volume_discount.volume
 
     return price
-
 
 
 # noinspection PyUnusedLocal
@@ -66,6 +66,8 @@ def checkout(skus):
     """
 
     for item in items:
-        pass
+        max_volume_discount = calc_max_volume_discount(sku_count, item)
+        total_price += max_volume_discount + (sku_count[item.sku] * item.price)
 
     return total_price
+
