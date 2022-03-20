@@ -25,7 +25,7 @@ class FreebieOffer():
         self.freebies = freebies
 
 
-def calc_max_volume_discount(sku_count, item):
+def calc_max_volume_discount(item, sku_count):
     price = 0
     if item.volume_discounts:
         for volume_discount in sorted(item.volume_discounts, key=lambda x:x.get_price_per_item()):
@@ -36,10 +36,17 @@ def calc_max_volume_discount(sku_count, item):
     return price
 
 
+def calc_eligible_freebies(items, sku_count):
+    for item in items:
+        if item.freebie_offers:
+            pass
+
+
 def calc_price_volume_first(items, sku_count):
     total_price = 0
     for item in items:
-        max_volume_discount = calc_max_volume_discount(sku_count, item)
+        max_volume_discount = calc_max_volume_discount(item, sku_count)
+        calc_eligible_freebies(items, sku_count)
         total_price += max_volume_discount + (sku_count[item.sku] * item.price)
     return total_price
 
@@ -74,6 +81,7 @@ def checkout(skus):
     price_freebies_first = 0
 
     return min(price_volume_first, price_freebies_first)
+
 
 
 
