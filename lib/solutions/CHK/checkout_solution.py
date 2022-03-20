@@ -69,6 +69,11 @@ def calc_price_freebies_first(items, sku_count):
     return total_price
 
 
+def build_items(table_string):
+    for line in table_string.splitlines()[3:-1]:
+        print([x.strip() for x in line.split('|')[1:-1]])
+
+
 # noinspection PyUnusedLocal
 # skus = unicode string
 def checkout(skus):
