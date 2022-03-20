@@ -1,6 +1,5 @@
 from collections import defaultdict
-from email.policy import default
-from os import times
+import copy
 
 
 class Item():
@@ -37,6 +36,14 @@ def calc_max_volume_discount(sku_count, item):
     return price
 
 
+def calc_price_volume_first(items, sku_count):
+    total_price = 0
+    for item in items:
+        max_volume_discount = calc_max_volume_discount(sku_count, item)
+        total_price += max_volume_discount + (sku_count[item.sku] * item.price)
+    return total_price
+
+
 # noinspection PyUnusedLocal
 # skus = unicode string
 def checkout(skus):
@@ -55,8 +62,6 @@ def checkout(skus):
             return -1
         sku_count[sku] += 1
 
-    total_price = 0
-
     """
     for item
     calc maximum volume discount savings
@@ -64,10 +69,8 @@ def checkout(skus):
     calc price and save
     invert, calc price, compare
     """
-
-    for item in items:
-        max_volume_discount = calc_max_volume_discount(sku_count, item)
-        total_price += max_volume_discount + (sku_count[item.sku] * item.price)
+    total_price = 0
 
     return total_price
+
 
