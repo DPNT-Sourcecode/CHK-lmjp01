@@ -38,7 +38,6 @@ class TestCheckout():
         assert checkout_solution.checkout("EEBB") == (40 * 2) + 30
 
     def test_build_items(self):
-        with open('./price_table.txt') as table_string:
-            items = checkout_solution.build_items(table_string)
+        items = checkout_solution.build_items_wrapper()
         print(items)
-        assert items[0].sku == "A"
+        assert items[0].sku == "B"

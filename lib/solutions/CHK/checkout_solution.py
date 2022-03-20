@@ -71,7 +71,7 @@ def calc_price_freebies_first(items, sku_count):
 
 def build_items(table_string):
     items = []
-    for line in table_string.splitlines()[3:-1]:
+    for line in table_string.splitlines()[4:-2]:
         row = [x.strip() for x in line.split('|')[1:-1]]
         sku = row[0]
         price = row[1]
@@ -94,10 +94,7 @@ def build_items(table_string):
     return items
 
 
-# noinspection PyUnusedLocal
-# skus = unicode string
-def checkout(skus):
-
+def build_items_wrapper():
     table_string = """
         +------+-------+------------------------+
         | Item | Price | Special offers         |
@@ -131,7 +128,14 @@ def checkout(skus):
         +------+-------+------------------------+
     """
 
-    items = build_items(table_string)
+    return build_items(table_string)
+
+
+# noinspection PyUnusedLocal
+# skus = unicode string
+def checkout(skus):
+
+    items = build_items_wrapper()
 
     sku_count = defaultdict(int)
 
