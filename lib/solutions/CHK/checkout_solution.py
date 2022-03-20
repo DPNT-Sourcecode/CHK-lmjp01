@@ -122,7 +122,8 @@ def calc_max_multi_volume_discount(items, multi_volume_discounts, sku_count):
     multi_volume_skus_available = ""
     max_multi_volume_discount = 0
     for mvd_skus in multi_volume_discounts.keys():
-        sorted_skus = list(mvd_skus).sort(key=lambda x: item_prices[x], reverse=True)
+        sorted_skus = list(mvd_skus)
+        sorted_skus.sort(key=lambda x: item_prices[x], reverse=True)
         for sku in sorted_skus:
             multi_volume_skus_available += sku * sku_count[sku]
         mvd_volume = multi_volume_discounts[mvd_skus].volume
@@ -131,12 +132,13 @@ def calc_max_multi_volume_discount(items, multi_volume_discounts, sku_count):
         for sku in multi_volume_skus_available:
             sku_count[sku] -= 1
         max_multi_volume_discount += times_applied * multi_volume_discounts[mvd_skus].price
-        
+
     return max_multi_volume_discount
 
 
 def calc_price_volume_first(items, sku_count, multi_volume_discounts):
     total_price = 0
+    total_price += calc_max_multi_volume_discount(items, multi_volume_discounts, sku_count)
     for item in items:
         max_volume_discount = calc_max_volume_discount(item, sku_count)
         total_price += max_volume_discount
@@ -151,8 +153,7 @@ def calc_price_freebies_first(items, sku_count, multi_volume_discounts):
     total_price = 0
     for item in items:
         calc_eligible_freebies(item, sku_count)
-    for item in items:
-        max_multi_volume_discount = calc_max_multi_volume_discount()
+    total_price += calc_max_multi_volume_discount(items, multi_volume_discounts, sku_count)
     for item in items:
         max_volume_discount = calc_max_volume_discount(item, sku_count)
         total_price += max_volume_discount
@@ -181,6 +182,3 @@ def checkout(skus):
     price_freebies_first = calc_price_freebies_first(items, copy.deepcopy(sku_count), multi_volume_discounts)
 
     return min(price_volume_first, price_freebies_first)
-
-
-
