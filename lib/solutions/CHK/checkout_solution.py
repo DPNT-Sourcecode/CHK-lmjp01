@@ -95,11 +95,7 @@ def checkout(skus):
     """
     price_volume_first = calc_price_volume_first(items, copy.deepcopy(sku_count))
 
-    price_freebies_first = calc_price_freebies_first(items, copy.deepcopy(sku_count))
+    # price_freebies_first = calc_price_freebies_first(items, copy.deepcopy(sku_count))
+    price_freebies_first = 1000
 
     return min(price_volume_first, price_freebies_first)
-
-
-
-
-
