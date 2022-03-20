@@ -61,6 +61,7 @@ class TableBuilder():
 
     def __init__(self):
         self.items = []
+        self.multi_volume_discounts = {}
         for line in self.table_string.splitlines()[4:-2]:
             row = [x.strip() for x in line.split('|')[1:-1]]
             sku = row[0]
@@ -82,7 +83,9 @@ class TableBuilder():
                             freebie_count += 1
                         freebie_offers.append(FreebieOffer(freebie_count, {freebie_sku: 1}))
                     if offer_string_fields[1] == "any":
-                        pass
+                        multi_volume_count = int(offer_string_fields[2])
+                        multi_volume_price = int(offer_string_fields[-1])
+                        multi_volume_skus = offer_string_fields[4][1:-1].split(',')
             self.items.append(Item(sku, int(price), volume_discounts, freebie_offers))
 
     
@@ -152,7 +155,3 @@ def checkout(skus):
     price_freebies_first = calc_price_freebies_first(items, copy.deepcopy(sku_count))
 
     return min(price_volume_first, price_freebies_first)
-
-
-
-
