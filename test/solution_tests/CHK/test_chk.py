@@ -34,4 +34,4 @@ class TestCheckout():
         assert checkout_solution.checkout("EE") == checkout_solution.checkout("EEB")
     
     def test_checkout_freebie_with_volume_discount(self):
-        assert checkout_solution.checkout("EEBB") == 40 + 30
+        assert checkout_solution.checkout("EEBB") == (40 * 2) + 30
