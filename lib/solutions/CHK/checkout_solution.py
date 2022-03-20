@@ -80,9 +80,15 @@ def build_items(table_string):
         freebie_offers = []
         for offer_string in [x.strip() for x in offers_string.split(',')]:
             if ' for ' in offer_string:
-                pass
+                volume_count = int(offer_string[0].split(sku)[0])
+                volume_price = int(offer_string[2])
+                volume_discounts.append(VolumeDiscount(volume_count, volume_price))
             if ' get ' in offer_string:
-                pass
+                freebie_count = int(offer_string[0].split(sku)[0])
+                freebie_sku = offer_string[3]
+                if freebie_sku == sku:
+                    freebie_count += 1
+                freebie_offers.append(FreebieOffer(freebie_count, {freebie_sku: 1}))
         items.append(Item(sku, int(price), volume_discounts, freebie_offers))
 
 
@@ -110,6 +116,7 @@ def checkout(skus):
     price_freebies_first = calc_price_freebies_first(items, copy.deepcopy(sku_count))
 
     return min(price_volume_first, price_freebies_first)
+
 
 
 
