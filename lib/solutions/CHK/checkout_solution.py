@@ -69,32 +69,7 @@ def calc_price_freebies_first(items, sku_count):
     return total_price
 
 
-def build_items(table_string):
-    items = []
-    for line in table_string.splitlines()[4:-2]:
-        row = [x.strip() for x in line.split('|')[1:-1]]
-        sku = row[0]
-        price = row[1]
-        offers_string = row[2]
-        volume_discounts = []
-        freebie_offers = []
-        for offer_string in [x.strip() for x in offers_string.split(', ')]:
-            offer_string_fields = offer_string.split()
-            if offer_string_fields[1] == "for":
-                volume_count = int(offer_string_fields[0].split(sku)[0])
-                volume_price = int(offer_string_fields[2])
-                volume_discounts.append(VolumeDiscount(volume_count, volume_price))
-            if offer_string_fields[1] == "get":
-                freebie_count = int(offer_string_fields[0].split(sku)[0])
-                freebie_sku = offer_string_fields[3]
-                if freebie_sku == sku:
-                    freebie_count += 1
-                freebie_offers.append(FreebieOffer(freebie_count, {freebie_sku: 1}))
-        items.append(Item(sku, int(price), volume_discounts, freebie_offers))
-    return items
-
-
-def build_items_wrapper():
+class TableBuilder():
     table_string = """
         +------+-------+---------------------------------+
         | Item | Price | Special offers                  |
@@ -128,7 +103,34 @@ def build_items_wrapper():
         +------+-------+---------------------------------+
     """
 
-    return build_items(table_string)
+    @classmethod
+    def build_items(cls):
+        items = []
+        for line in cls.table_string.splitlines()[4:-2]:
+            row = [x.strip() for x in line.split('|')[1:-1]]
+            sku = row[0]
+            price = row[1]
+            offers_string = row[2]
+            volume_discounts = []
+            freebie_offers = []
+            for offer_string in [x.strip() for x in offers_string.split(', ')]:
+                offer_string_fields = offer_string.split()
+                if offer_string_fields[1] == "for":
+                    volume_count = int(offer_string_fields[0].split(sku)[0])
+                    volume_price = int(offer_string_fields[2])
+                    volume_discounts.append(VolumeDiscount(volume_count, volume_price))
+                if offer_string_fields[1] == "get":
+                    freebie_count = int(offer_string_fields[0].split(sku)[0])
+                    freebie_sku = offer_string_fields[3]
+                    if freebie_sku == sku:
+                        freebie_count += 1
+                    freebie_offers.append(FreebieOffer(freebie_count, {freebie_sku: 1}))
+            items.append(Item(sku, int(price), volume_discounts, freebie_offers))
+        return items
+    
+
+def build_items_wrapper():
+    return TableBuilder.build_items()
 
 
 # noinspection PyUnusedLocal
@@ -149,5 +151,6 @@ def checkout(skus):
     price_freebies_first = calc_price_freebies_first(items, copy.deepcopy(sku_count))
 
     return min(price_volume_first, price_freebies_first)
+
 
 
