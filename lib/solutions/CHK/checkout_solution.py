@@ -77,7 +77,8 @@ def checkout(skus):
         Item("B", 30, [VolumeDiscount(2, 45)], None),
         Item("C", 20, None, None),
         Item("D", 15, None, None),
-        Item("E", 40, None, [FreebieOffer(2, {"B": 1})])
+        Item("E", 40, None, [FreebieOffer(2, {"B": 1})]),
+        Item("F", 10, None, [FreebieOffer(3, {"F": 1})])
     ]
 
     sku_count = defaultdict(int)

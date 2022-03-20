@@ -10,10 +10,10 @@ class TestCheckout():
     # ]
 
     def test_checkout_illegal_input(self):
-        assert checkout_solution.checkout("ABCDEF") == -1
+        assert checkout_solution.checkout("ABCDEFG") == -1
 
     def test_checkout_legal_input(self):
-        assert checkout_solution.checkout("ABCDE") == 50 + 30 + 20 + 15 + 40
+        assert checkout_solution.checkout("ABCDEF") == 50 + 30 + 20 + 15 + 40 + 10
 
     def test_checkout_volume_discount(self):
         assert checkout_solution.checkout("AAA") == 130
@@ -32,6 +32,7 @@ class TestCheckout():
 
     def test_checkout_freebie(self):
         assert checkout_solution.checkout("EE") == checkout_solution.checkout("EEB")
+        assert checkout_solution.checkout("FF") == checkout_solution.checkout("FFF")
     
     def test_checkout_freebie_with_volume_discount(self):
         assert checkout_solution.checkout("EEBB") == (40 * 2) + 30
