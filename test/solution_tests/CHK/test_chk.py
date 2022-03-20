@@ -10,7 +10,7 @@ class TestCheckout():
     # ]
 
     def test_checkout_illegal_input(self):
-        assert checkout_solution.checkout("ABCDEFG") == -1
+        assert checkout_solution.checkout("ABCDEFG ") == -1
 
     def test_checkout_legal_input(self):
         assert checkout_solution.checkout("ABCDEF") == 50 + 30 + 20 + 15 + 40 + 10
@@ -36,3 +36,12 @@ class TestCheckout():
     
     def test_checkout_freebie_with_volume_discount(self):
         assert checkout_solution.checkout("EEBB") == (40 * 2) + 30
+
+    def test_build_items(self):
+        table_string = """+------+-------+------------------------+
+| Item | Price | Special offers         |
++------+-------+------------------------+
+| A    | 50    | 3A for 130, 5A for 200 |"""
+        items = checkout_solution.build_items(table_string)
+        print(items)
+        assert items[0].sku == "A"
