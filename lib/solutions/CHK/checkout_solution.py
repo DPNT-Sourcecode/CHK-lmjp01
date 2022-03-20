@@ -87,20 +87,11 @@ def checkout(skus):
             return -1
         sku_count[sku] += 1
 
-    """
-    for item
-    calc maximum volume discount savings
-    calc freebies possible
-    calc price and save
-    invert, calc price, compare
-    """
     price_volume_first = calc_price_volume_first(items, copy.deepcopy(sku_count))
 
     price_freebies_first = calc_price_freebies_first(items, copy.deepcopy(sku_count))
 
     return min(price_volume_first, price_freebies_first)
-
-checkout("EE")
 
 
 
