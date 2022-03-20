@@ -1,5 +1,6 @@
 from collections import defaultdict
 from email.policy import default
+from os import times
 
 
 class Item():
@@ -27,6 +28,12 @@ class FreebieOffer():
 
 def calc_max_volume_discount(sku_count, item):
     price = 0
+    for volume_discount in sorted(item.volume_discounts, key=lambda x:x.get_price_per_item()):
+        times_applied = sku_count[item.sku] // volume_discount.volume
+        price += times_applied * volume_discount.price
+        sku_count[item.sku] -= times_applied * volume_discount.volume
+
+    return price
 
 
 
@@ -62,7 +69,3 @@ def checkout(skus):
         pass
 
     return total_price
-
-
-
-
