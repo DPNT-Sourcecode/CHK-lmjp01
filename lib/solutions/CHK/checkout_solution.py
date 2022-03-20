@@ -71,7 +71,10 @@ def calc_price_freebies_first(items, sku_count):
 
 def build_items(table_string):
     for line in table_string.splitlines()[3:-1]:
-        print([x.strip() for x in line.split('|')[1:-1]])
+        row = [x.strip() for x in line.split('|')[1:-1]]
+        sku = row[0]
+        price = row[1]
+        
 
 
 # noinspection PyUnusedLocal
@@ -98,3 +101,4 @@ def checkout(skus):
     price_freebies_first = calc_price_freebies_first(items, copy.deepcopy(sku_count))
 
     return min(price_volume_first, price_freebies_first)
+
