@@ -73,6 +73,7 @@ def build_items(table_string):
     items = []
     for line in table_string.splitlines()[3:-1]:
         row = [x.strip() for x in line.split('|')[1:-1]]
+        print(row)
         sku = row[0]
         price = row[1]
         offers_string = row[3]
@@ -90,19 +91,45 @@ def build_items(table_string):
                     freebie_count += 1
                 freebie_offers.append(FreebieOffer(freebie_count, {freebie_sku: 1}))
         items.append(Item(sku, int(price), volume_discounts, freebie_offers))
+    return items
 
 
 # noinspection PyUnusedLocal
 # skus = unicode string
 def checkout(skus):
-    items = [
-        Item("A", 50, [VolumeDiscount(3, 130), VolumeDiscount(5, 200)], None),
-        Item("B", 30, [VolumeDiscount(2, 45)], None),
-        Item("C", 20, None, None),
-        Item("D", 15, None, None),
-        Item("E", 40, None, [FreebieOffer(2, {"B": 1})]),
-        Item("F", 10, None, [FreebieOffer(3, {"F": 1})])
-    ]
+    table_string = """+------+-------+------------------------+
+| Item | Price | Special offers         |
++------+-------+------------------------+
+| A    | 50    | 3A for 130, 5A for 200 |
+| B    | 30    | 2B for 45              |
+| C    | 20    |                        |
+| D    | 15    |                        |
+| E    | 40    | 2E get one B free      |
+| F    | 10    | 2F get one F free      |
+| G    | 20    |                        |
+| H    | 10    | 5H for 45, 10H for 80  |
+| I    | 35    |                        |
+| J    | 60    |                        |
+| K    | 80    | 2K for 150             |
+| L    | 90    |                        |
+| M    | 15    |                        |
+| N    | 40    | 3N get one M free      |
+| O    | 10    |                        |
+| P    | 50    | 5P for 200             |
+| Q    | 30    | 3Q for 80              |
+| R    | 50    | 3R get one Q free      |
+| S    | 30    |                        |
+| T    | 20    |                        |
+| U    | 40    | 3U get one U free      |
+| V    | 50    | 2V for 90, 3V for 130  |
+| W    | 20    |                        |
+| X    | 90    |                        |
+| Y    | 10    |                        |
+| Z    | 50    |                        |
++------+-------+------------------------+
+    """
+
+    items = build_items(table_string)
 
     sku_count = defaultdict(int)
 
@@ -116,6 +143,7 @@ def checkout(skus):
     price_freebies_first = calc_price_freebies_first(items, copy.deepcopy(sku_count))
 
     return min(price_volume_first, price_freebies_first)
+
 
 
 
